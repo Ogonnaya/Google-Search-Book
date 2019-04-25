@@ -8,7 +8,7 @@ function BookItemCard(props) {
                 
             <div className="row no-gutters">
                 <div className="col">
-                <img src={props.thumbnail} class="card-img" alt={props.title} style={{width: "200px"}}/>
+                <img src={props.thumbnail} className="card-img" alt={props.title} style={{width: "200px"}}/>
                 </div>
                 <div className="col-md-8">
                 <div className="card-body">
