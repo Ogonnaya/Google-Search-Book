@@ -1,6 +1,7 @@
 //require db 
 // import db from ("../models")
 const db = require("../models")
+
 module.exports = {
     findAllSaved: (req, res) => {
         db.savedBooks
@@ -18,12 +19,13 @@ module.exports = {
             link: req.body.link,
             author: req.body.author,
             desription: req.body.description,
-            id: req.body.id
+            key: req.body.key
         })
+        .then(res.end())
     },
     remove: (req, res) => {
         db.savedBooks
-        .findById({ _id: req.params.id })
+        .findById({ key: req.params.key })
         .then(dbModel => dbModel.remove())
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err));
