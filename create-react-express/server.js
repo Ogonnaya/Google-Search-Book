@@ -10,9 +10,10 @@ app.use(express.json());
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
+
 app.use(routes);
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactreadinglist");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlesearch", {useNewUrlParser: true});
 
 // Start the API server
 app.listen(PORT, function() {

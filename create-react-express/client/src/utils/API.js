@@ -4,7 +4,8 @@ export default {
   // call to the Google Book API when searching for a book
   searchBooks: function(query) {
     return axios.get("https://www.googleapis.com/books/v1/volumes?q=" + query);
-  }
+  },
+
   // // display the saved books from our database
   // getBooks: function(id) {
   //   return axios.get("/api/books/" );
@@ -13,8 +14,9 @@ export default {
   // deleteBook: function(id) {
   //   return axios.delete("/api/books/" + id);
   // },
-  // // save the book in our database
-  // saveBook: function() {
-  //   return axios.post("/api/books", bookData);
-  // }
+
+  // save the book in our database
+  saveBook: function(bookKey, bookData) {
+    return axios.post("/api/books/" + bookKey, bookData);
+  }
 };

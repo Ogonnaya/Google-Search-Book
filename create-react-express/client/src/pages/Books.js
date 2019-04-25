@@ -7,94 +7,124 @@ import API from "../utils/API";
 
 
 class Books extends Component {
-    
-    state= { 
+
+    state = {
         results: [],
         savedBooks: [],
         bookSearch: ""
-    }; 
+    };
 
     //On Button click for searching books 
-    handleSearch = event =>{
+    handleSearch = event => {
 
-        event.preventDefault(); 
+        event.preventDefault();
 
-        if(this.state.bookSearch)
-        {
-            API.searchBooks( this.state.bookSearch)
-                .then( res => 
+        if (this.state.bookSearch) {
+            API.searchBooks(this.state.bookSearch)
+                .then(res =>
                     this.setState({
-                    results: res.data.items
-                })  
-                // console.log("reesponse", res.data.items)
+                        results: res.data.items
+                    })
+                    // console.log("reesponse", res.data.items)
                 )
                 .catch(err => console.log(err));
         }
     }
-      
-    handleInputChange = event =>{
 
-        const value = event.target.value; 
+    handleInputChange = event => {
+
+        const value = event.target.value;
 
         this.setState({
-            bookSearch : value
+            bookSearch: value
         })
     }
 
-  render() {
-    return (
-      <div>
-        <SearchCard 
-            value={this.state.bookSearch}
-            onChange={this.handleInputChange}
-            onClick={this.handleSearch}
-        />
-        
-        {window.location.pathname ===  "/" ?  
-            <SearchResult>
-                {this.state.results.length ? (
-                
-                    this.state.results.map(book => {
-                        return (
-                            <BookItemCard
-                                key = {book.id}
-                                title={book.volumeInfo.title}
-                                author={(book.volumeInfo.authors) ? (book.volumeInfo.authors[0]) : ("Anonymous")}
-                                href={book.volumeInfo.previewLink}
-                                thumbnail={(book.volumeInfo.imageLinks) ? (book.volumeInfo.imageLinks.thumbnail) : ("http://blogs.smithsonianmag.com/design/files/2013/03/smiley-face-1.jpg")}
-                                description={book.volumeInfo.description}
-                            /> 
-                        ) 
-                    })
-                ) : (
-                    <h3>No Results to Display</h3>  
-                )}  
-            </SearchResult>
-        : 
-            <SaveCard>
-                {this.state.savedBooks.length ? (
-                
-                this.state.savedBooks.map(book => {
-                    return (
-                        <BookItemCard
-                            key = {book.id}
-                            title={book.volumeInfo.title}
-                            author={book.volumeInfo.authors[0]}
-                            href={book.volumeInfo.previewLink}
-                            thumbnail={(book.volumeInfo.imageLinks) ? (book.volumeInfo.imageLinks.thumbnail) : ("http://blogs.smithsonianmag.com/design/files/2013/03/smiley-face-1.jpg")}
-                            description={book.volumeInfo.description}
-                        /> 
-                    ) 
-                })
-                ) : (
-                    <h3>No Saved Books</h3>  
-                )}  
-            </SaveCard>
+    handleSave = event => {
+        const bookIndex = event.target.attributes.getNamedItem("data-index").value;
+        const saveBook = this.state.results[bookIndex];
+        console.log(saveBook);
+
+        const bookData = {
+            title: saveBook.volumeInfo.title,
+            link: saveBook.volumeInfo.previewLink,
+            author: saveBook.volumeInfo.authors,
+            desription: saveBook.volumeInfo.description,
+            key: saveBook.id
         }
+
+        API.saveBook(bookData.key, bookData)
+            .then(console.log("successful insert!"))
+    }    
+
+    handleDelete = event => {
         
-      </div>
-    )
-  }
+        
+    }
+
+
+
+
+    render() {
+        return (
+            <div>
+                {window.location.pathname === "/" ?
+                    <div>
+                        <SearchCard
+                            value={this.state.bookSearch}
+                            onChange={this.handleInputChange}
+                            onClick={this.handleSearch}
+                        />
+
+                        <SearchResult>
+                            {this.state.results.length ? (
+
+                                this.state.results.map( (book, i) => {
+                                    return (
+                                        <BookItemCard
+                                            key={book.id}
+                                            title={book.volumeInfo.title}
+                                            author={(book.volumeInfo.authors) ? (book.volumeInfo.authors[0]) : ("Anonymous")}
+                                            href={book.volumeInfo.previewLink}
+                                            thumbnail={(book.volumeInfo.imageLinks) ? (book.volumeInfo.imageLinks.thumbnail) : ("http://blogs.smithsonianmag.com/design/files/2013/03/smiley-face-1.jpg")}
+                                            description={book.volumeInfo.description}
+                                            save={this.handleSave}
+                                            index={i}
+                                        />
+                                    )
+                                })
+                            ) : (
+                                    <h3>No Results to Display</h3>
+                                )}
+                        </SearchResult>
+                    </div>
+                    :
+                    <SaveCard>
+
+                        {this.state.savedBooks.length ? (
+
+                            this.state.savedBooks.map(book => {
+                                return (
+                                    <BookItemCard
+                                        key={book.id}
+                                        title={book.volumeInfo.title}
+                                        author={book.volumeInfo.authors[0]}
+                                        href={book.volumeInfo.previewLink}
+                                        thumbnail={(book.volumeInfo.imageLinks) ? (book.volumeInfo.imageLinks.thumbnail) : ("http://blogs.smithsonianmag.com/design/files/2013/03/smiley-face-1.jpg")}
+                                        description={book.volumeInfo.description}
+                                        delete={this.handleDelete}
+                                    />
+                                )
+                            })
+                        ) : (
+                                <h3>No Saved Books</h3>
+                            )}
+                    </SaveCard>
+                }
+
+            </div>
+        )
+    }
 
 }
 

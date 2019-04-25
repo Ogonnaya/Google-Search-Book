@@ -2,7 +2,7 @@ const router = require("express").Router();
 const booksController = require("../../controllers/bookscontroller");
 
 // Landing page call
-router.route("/")
+router.route("/:id")
 	.post(booksController.create);
 
 // Saved page calls
