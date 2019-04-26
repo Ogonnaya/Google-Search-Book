@@ -48,7 +48,7 @@ class Books extends Component {
         const bookData = {
             title: saveBook.volumeInfo.title,
             link: saveBook.volumeInfo.previewLink,
-            author: saveBook.volumeInfo.authors,
+            author: saveBook.volumeInfo.authors[0],
             desription: saveBook.volumeInfo.description,
             key: saveBook.id
         }
