@@ -79,7 +79,14 @@ class Books extends Component {
     }    
 
     handleDelete = event => {
-        
+        const bookIndex = event.target.attributes.getNamedItem("data-index").value;
+        const deleteBook = this.state.savedBooks[bookIndex]
+        console.log(deleteBook._id)
+
+        API.deleteBook(deleteBook._id).then(
+            
+            window.location.reload()
+        )
         
     }
 
@@ -123,16 +130,17 @@ class Books extends Component {
                     <SaveCard>
                         {this.state.savedBooks.length ? (
 
-                            this.state.savedBooks.map(book => {
+                            this.state.savedBooks.map((book, i) => {
                                 return (
                                     <BookItemCard
-                                        key={book.id}
+                                        key={book._id}
                                         title={book.title}
                                         author={book.author}
                                         href={book.link}
                                         thumbnail={(book.thumbnail) ? (book.thumbnail) : ("http://blogs.smithsonianmag.com/design/files/2013/03/smiley-face-1.jpg")}
                                         description={book.description}
-                                        // delete={this.handleDelete}
+                                        delete={this.handleDelete}
+                                        index={i}
                                     />
                                 )
                             })
