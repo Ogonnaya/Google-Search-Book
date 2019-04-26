@@ -9,7 +9,7 @@ function SearchCard(props) {
                     <form>
                         <div className="form-group">
                             <label >Book</label>
-                            <input type="text" className="form-control" value={props.value} onChange={props.onChange} placeholder="Harry Potter" required/>
+                            <input type="text" className="form-control" value={props.value} onChange={props.onChange} placeholder="Example: Harry Potter" required/>
                         </div>
                     </form>
                     <button className="btn btn-sm float-right btn-info" type="submit" onClick={props.onClick}>Search</button>
