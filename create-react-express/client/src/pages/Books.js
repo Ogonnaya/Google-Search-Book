@@ -14,6 +14,18 @@ class Books extends Component {
         bookSearch: ""
     };
 
+    componentDidMount (){
+        API.getSavedBooks()
+                .then(res => {
+                    this.setState({
+                        savedBooks: res.data
+                    })
+
+                })
+            
+    }
+
+
     //On Button click for searching books 
     handleSearch = event => {
 
@@ -48,13 +60,22 @@ class Books extends Component {
         const bookData = {
             title: saveBook.volumeInfo.title,
             link: saveBook.volumeInfo.previewLink,
+            thumbnail: saveBook.volumeInfo.imageLinks.thumbnail,
             author: saveBook.volumeInfo.authors[0],
-            desription: saveBook.volumeInfo.description,
+            description: saveBook.volumeInfo.description,
             key: saveBook.id
         }
 
         API.saveBook(bookData.key, bookData)
-            .then(console.log("successful insert!"))
+            .then(API.getSavedBooks()
+                .then(res => {
+                    this.setState({
+                        savedBooks: res.data
+                    })
+                    console.log("In state", this.state.savedBooks)
+                    console.log("Length", this.state.savedBooks.length)
+                })
+            )
     }    
 
     handleDelete = event => {
@@ -100,19 +121,18 @@ class Books extends Component {
                     </div>
                     :
                     <SaveCard>
-
                         {this.state.savedBooks.length ? (
 
                             this.state.savedBooks.map(book => {
                                 return (
                                     <BookItemCard
                                         key={book.id}
-                                        title={book.volumeInfo.title}
-                                        author={book.volumeInfo.authors[0]}
-                                        href={book.volumeInfo.previewLink}
-                                        thumbnail={(book.volumeInfo.imageLinks) ? (book.volumeInfo.imageLinks.thumbnail) : ("http://blogs.smithsonianmag.com/design/files/2013/03/smiley-face-1.jpg")}
-                                        description={book.volumeInfo.description}
-                                        delete={this.handleDelete}
+                                        title={book.title}
+                                        author={book.author}
+                                        href={book.link}
+                                        thumbnail={(book.thumbnail) ? (book.thumbnail) : ("http://blogs.smithsonianmag.com/design/files/2013/03/smiley-face-1.jpg")}
+                                        description={book.description}
+                                        // delete={this.handleDelete}
                                     />
                                 )
                             })

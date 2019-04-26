@@ -7,9 +7,9 @@ export default {
   },
 
   // // display the saved books from our database
-  // getBooks: function(id) {
-  //   return axios.get("/api/books/" );
-  // },
+  getSavedBooks: function() {
+    return axios.get("/api/books/saved" );
+  },
   // // delete a saved book from our database
   // deleteBook: function(id) {
   //   return axios.delete("/api/books/" + id);
