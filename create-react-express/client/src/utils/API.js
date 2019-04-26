@@ -6,14 +6,14 @@ export default {
     return axios.get("https://www.googleapis.com/books/v1/volumes?q=" + query);
   },
 
-  // // display the saved books from our database
+  // display the saved books from our database
   getSavedBooks: function() {
     return axios.get("/api/books/saved" );
   },
-  // // delete a saved book from our database
-  // deleteBook: function(id) {
-  //   return axios.delete("/api/books/" + id);
-  // },
+  // delete a saved book from our database
+  deleteBook: function(id) {
+    return axios.delete("/api/books/delete/" + id);
+  },
 
   // save the book in our database
   saveBook: function(bookKey, bookData) {
