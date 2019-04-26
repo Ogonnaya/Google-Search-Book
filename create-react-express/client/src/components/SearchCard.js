@@ -6,13 +6,13 @@ function SearchCard(props) {
             <div className="card">
                 <h5 className="card-header">Book Search</h5>
                 <div className="card-body">
-                    <form>
+                    <form onSubmit={props.onClick}>
                         <div className="form-group">
                             <label >Book</label>
                             <input type="text" className="form-control" value={props.value} onChange={props.onChange} placeholder="Example: Harry Potter" required/>
                         </div>
+                        <button className="btn btn-sm float-right btn-info" type="submit" >Search</button>
                     </form>
-                    <button className="btn btn-sm float-right btn-info" type="submit" onClick={props.onClick}>Search</button>
                 </div>
             </div>
         </div>
